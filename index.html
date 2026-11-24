@@ -58,7 +58,9 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 20px 12px 34px;
+      width: 100%;
+      max-width: 900px;
+      padding: 16px 12px 36px;
       animation: bouquetEntrance 2.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
@@ -79,141 +81,46 @@
       }
     }
 
-    #bouquet {
-      font-family: 'Fira Code', 'Courier New', monospace;
-      font-variant-ligatures: none;
-      font-feature-settings: "liga" 0, "calt" 0;
-      font-size: clamp(6.8px, 1.5vw, 11px);
-      line-height: 1.05;
-      letter-spacing: 0px;
-      white-space: pre;
+    /* ── High-DPI Pure ASCII Bouquet Stage ── */
+    .bouquet-stage {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 4px;
+    }
+
+    #bouquet-canvas {
       display: block;
-      cursor: pointer;
-      text-align: left;
+      max-width: 100%;
+      cursor: grab;
+      touch-action: none;
       outline: none;
     }
 
-    /* ── 3D ASCII Shading Palette ── */
-    .r0 {
-      color: #5c0011;
-      text-shadow: 0 0 3px rgba(92, 0, 17, 0.5);
-    }
-
-    .r1 {
-      color: #9e001f;
-      text-shadow: 0 0 5px rgba(158, 0, 31, 0.55);
-    }
-
-    .r2 {
-      color: #e0072b;
-      text-shadow: 0 0 7px rgba(224, 7, 43, 0.65);
-    }
-
-    .r3 {
-      color: #ff2e51;
-      text-shadow: 0 0 9px rgba(255, 46, 81, 0.75);
-    }
-
-    .r4 {
-      color: #ff708a;
-      text-shadow: 0 0 10px rgba(255, 112, 138, 0.75);
-    }
-
-    .r5 {
-      color: #ffbcc8;
-      text-shadow: 0 0 12px rgba(255, 188, 200, 0.85);
-    }
-
-    /* Leaves, sepals & stems */
-    .g0 {
-      color: #0b4218;
-      text-shadow: 0 0 4px rgba(11, 66, 24, 0.45);
-    }
-
-    .g1 {
-      color: #167a2c;
-      text-shadow: 0 0 5px rgba(22, 122, 44, 0.5);
-    }
-
-    .g2 {
-      color: #2ec947;
-      text-shadow: 0 0 7px rgba(46, 201, 71, 0.55);
-    }
-
-    .g3 {
-      color: #75f097;
-      text-shadow: 0 0 9px rgba(117, 240, 151, 0.6);
-    }
-
-    .th {
-      color: #ffe07d;
-      text-shadow: 0 0 7px rgba(255, 224, 125, 0.7);
-    }
-
-    /* Pleated rose-blush wrapping paper */
-    .w0 {
-      color: #6e1d35;
-      text-shadow: 0 0 4px rgba(110, 29, 53, 0.45);
-    }
-
-    .w1 {
-      color: #ad3658;
-      text-shadow: 0 0 6px rgba(173, 54, 88, 0.5);
-    }
-
-    .w2 {
-      color: #e36486;
-      text-shadow: 0 0 7px rgba(227, 100, 134, 0.55);
-    }
-
-    .w3 {
-      color: #ffa6be;
-      text-shadow: 0 0 9px rgba(255, 166, 190, 0.65);
-    }
-
-    /* Satin ribbon & bow */
-    .b0 {
-      color: #b81442;
-      text-shadow: 0 0 6px rgba(184, 20, 66, 0.6);
-    }
-
-    .b1 {
-      color: #ff476e;
-      text-shadow: 0 0 10px rgba(255, 71, 110, 0.75);
-    }
-
-    .b2 {
-      color: #ffd1dc;
-      text-shadow: 0 0 12px rgba(255, 209, 220, 0.85);
-    }
-
-    /* Floating sparkles around bouquet */
-    .sp {
-      color: #ffccdd;
-      text-shadow: 0 0 10px rgba(255, 204, 221, 0.85);
-    }
-
-    .ht {
-      color: #ff1a3a;
-      text-shadow: 0 0 14px rgba(255, 26, 58, 0.9);
+    #bouquet-canvas:active,
+    #bouquet-canvas.dragging {
+      cursor: grabbing;
     }
 
     /* ── Title, cute ASCII cat & speech ── */
     .glow-line {
-      width: 280px;
+      width: min(280px, 75vw);
       height: 1px;
       background: linear-gradient(90deg, transparent, #ff4466, transparent);
-      margin: 8px auto 12px;
+      margin: 6px auto 12px;
       opacity: 0;
       animation: fadeIn 1.5s ease 1.6s forwards;
     }
 
     .title-text {
       color: #ff3355;
-      font-size: 12px;
+      font-size: clamp(10.5px, 2.6vw, 12.5px);
       letter-spacing: 3px;
       text-shadow: 0 0 10px rgba(255, 51, 85, 0.55);
       min-height: 1.4em;
+      padding: 0 8px;
       opacity: 0;
       animation: fadeIn 1s ease 1.4s forwards;
     }
@@ -233,6 +140,13 @@
       text-align: left;
       opacity: 0;
       animation: fadeUp 1.2s ease 2.2s forwards;
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .cat-art:hover {
+      transform: scale(1.08);
+      filter: brightness(1.4) drop-shadow(0 0 12px rgba(255, 100, 150, 0.6));
     }
 
     .cat-shade {
@@ -403,17 +317,20 @@
   <canvas id="canvas-bg"></canvas>
 
   <div class="container">
-    <div id="bouquet" title="Click for hearts ♥"></div>
+    <div class="bouquet-stage">
+      <canvas id="bouquet-canvas" title="Click for hearts ♥ • Drag to rotate"
+        aria-label="Interactive 3D ASCII Rose Bouquet"></canvas>
+    </div>
     <div class="glow-line"></div>
     <div class="title-text" id="title-line"></div>
-    <pre
-      class="cat-art">     /\_     _/\
+    <pre class="cat-art" id="cat-art" title="✨ Click me to meet Hany AI! ✨">     /\_     _/\
     / <span class="cat-pink">^</span> \___/ <span class="cat-pink">^</span> \
    (   <span class="cat-eye" id="cat-eye-l">•</span>     <span class="cat-eye" id="cat-eye-r">•</span>   )   <span class="cat-heart">♥</span>
    (  <span class="cat-pink">===</span> w <span class="cat-pink">===</span>  )  <span class="cat-heart">♥</span>
     \   <span class="cat-shade">`---'</span>   /
     /   ( <span class="cat-heart">♥</span> )   \
-   (<span class="cat-shade">___</span>/_____\<span class="cat-shade">___</span>)<span class="cat-shade" id="cat-tail">~-.</span></pre>
+   (<span class="cat-shade">___</span>/_____\<span class="cat-shade">___</span>)<span class="cat-shade" id="cat-tail">~-.</span>
+   <span class="cat-pink" style="font-size:9px;opacity:0.7">    ✨ click me! ✨</span></pre>
     <div class="speech-area">
       <span class="speech-text" id="speech-text"></span><span class="cursor-blink">█</span>
     </div>
@@ -421,7 +338,7 @@
 
   <script>
     // ══════════════════════════════════════════════════════════════
-    //   ♥  3D Real-Time ASCII Rose Bouquet for Wispy  ♥
+    //   ♥  Upgraded High-Clarity 3D Real-Time ASCII Rose Bouquet  ♥
     // ══════════════════════════════════════════════════════════════
 
     // ── Prevent blue text-selection highlight on double-click ──
@@ -430,39 +347,42 @@
     });
     document.addEventListener('selectstart', e => e.preventDefault());
 
-    // ── Background Starfield ──
-    const cvs = document.getElementById('canvas-bg');
-    const ctx = cvs.getContext('2d');
-    let stars = [];
+    // ── Full-Screen Twinkling Pink-Tinted Starfield ──
+    const bgCanvas = document.getElementById('canvas-bg');
+    const bgCtx = bgCanvas.getContext('2d');
+    const stars = [];
 
-    function resize() { cvs.width = innerWidth; cvs.height = innerHeight; }
-    resize();
-    addEventListener('resize', resize);
+    function resizeStarfield() {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
+    }
+    resizeStarfield();
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 115; i++) {
       stars.push({
-        x: Math.random() * innerWidth,
-        y: Math.random() * innerHeight,
-        r: Math.random() * 1.3 + 0.3,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: Math.random() * 1.35 + 0.3,
         a: Math.random(),
-        spd: Math.random() * 0.015 + 0.004,
+        spd: Math.random() * 0.014 + 0.004,
         d: Math.random() > 0.5 ? 1 : -1
       });
     }
 
-    (function drawStars() {
-      ctx.clearRect(0, 0, cvs.width, cvs.height);
-      for (const s of stars) {
+    function drawStars() {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
         s.a += s.spd * s.d;
         if (s.a >= 1) { s.a = 1; s.d = -1; }
         if (s.a <= 0.08) { s.a = 0.08; s.d = 1; }
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, 6.283);
-        ctx.fillStyle = `rgba(255,160,190,${s.a * 0.5})`;
-        ctx.fill();
+        bgCtx.beginPath();
+        bgCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        bgCtx.fillStyle = `rgba(255,160,190,${(s.a * 0.52).toFixed(3)})`;
+        bgCtx.fill();
       }
       requestAnimationFrame(drawStars);
-    })();
+    }
 
     // ── Cute ASCII Cat Idle Animations (Blinking & Tail Swish) ──
     const eyeL = document.getElementById('cat-eye-l');
@@ -485,72 +405,105 @@
       tailEl.textContent = tailFrames[tailIdx];
     }, 550);
 
-    // ══════════════════════════════════════════════════════════════
-    //   3D PARAMETRIC BOUQUET MESH BUILDER
-    // ══════════════════════════════════════════════════════════════
-    const points = [];
+    // ── Cat click → navigate to Hany AI ──
+    document.getElementById('cat-art').addEventListener('click', e => {
+      e.stopPropagation();
+      window.location.href = 'hany.html';
+    });
 
-    function pushPoint(x, y, z, nx, ny, nz, mat, ao, bloomId = -1) {
+    // ══════════════════════════════════════════════════════════════
+    //   3D PARAMETRIC BOUQUET MESH BUILDER (TYPED-ARRAY ENGINE)
+    // ══════════════════════════════════════════════════════════════
+
+    // Temporary builders before packing into fast TypedArrays
+    const rawPx = [], rawPy = [], rawPz = [];
+    const rawNx = [], rawNy = [], rawNz = [];
+    const rawOx = [], rawOy = [], rawOz = []; // Local offset from bloom center (for breathing petals)
+    const rawAo = [], rawRim = [];
+    const rawMat = [], rawBloom = [], rawGlyph = [];
+    const rawTailV = [], rawTailSide = [];
+
+    // Material IDs:
+    // 0 = Rose petal, 1 = Leaf/Calyx/Stem, 2 = Pleated wrapping paper,
+    // 3 = Satin ribbon & bow, 4 = Golden thorn, 5 = Baby's breath floret, 6 = Fine baby's breath stem
+    const SPECIAL_GLYPHS = ['', '*', '+', '°', '·'];
+
+    function pushPoint(
+      x, y, z,
+      nx, ny, nz,
+      mat, ao, rim = 0,
+      bloomId = -1,
+      ox = 0, oy = 0, oz = 0,
+      glyphId = 0,
+      tailV = 0, tailSide = 0
+    ) {
       const len = Math.hypot(nx, ny, nz) || 1;
-      points.push({
-        x, y, z,
-        nx: nx / len,
-        ny: ny / len,
-        nz: nz / len,
-        mat,
-        ao,
-        bloomId
-      });
+      rawPx.push(x); rawPy.push(y); rawPz.push(z);
+      rawNx.push(nx / len); rawNy.push(ny / len); rawNz.push(nz / len);
+      rawOx.push(ox); rawOy.push(oy); rawOz.push(oz);
+      rawAo.push(ao); rawRim.push(rim);
+      rawMat.push(mat);
+      rawBloom.push(bloomId);
+      rawGlyph.push(glyphId);
+      rawTailV.push(tailV);
+      rawTailSide.push(tailSide);
     }
 
     function rotVec(x, y, z, rx, ry, rz) {
-      let y1 = y * Math.cos(rx) - z * Math.sin(rx);
-      let z1 = y * Math.sin(rx) + z * Math.cos(rx);
-      let x1 = x;
+      // Rotate around X, then Z, then Y
+      const cx = Math.cos(rx), sx = Math.sin(rx);
+      const y1 = y * cx - z * sx;
+      const z1 = y * sx + z * cx;
+      const x1 = x;
 
-      let x2 = x1 * Math.cos(rz) - y1 * Math.sin(rz);
-      let y2 = x1 * Math.sin(rz) + y1 * Math.cos(rz);
-      let z2 = z1;
+      const cz = Math.cos(rz), sz = Math.sin(rz);
+      const x2 = x1 * cz - y1 * sz;
+      const y2 = x1 * sz + y1 * cz;
+      const z2 = z1;
 
-      let x3 = x2 * Math.cos(ry) + z2 * Math.sin(ry);
-      let z3 = -x2 * Math.sin(ry) + z2 * Math.cos(ry);
+      const cy = Math.cos(ry), sy = Math.sin(ry);
+      const x3 = x2 * cy + z2 * sy;
+      const z3 = -x2 * sy + z2 * cy;
       return [x3, y2, z3];
     }
 
-    // ── 1. Build a Realistic 3D Rose (Spiral Cupped Petals + Calyx) ──
+    // ── 1. High-Clarity 3D Sculpted Fibonacci Rose with Rim-Edge Highlighting ──
     function addRose(cx, cy, cz, rx, ry, rz, scale, isBud, bloomId) {
-      const numPetals = isBud ? 11 : 18;
-      const uSteps = isBud ? 10 : 13;
+      const numPetals = isBud ? 13 : 23;
+      const uSteps = isBud ? 10 : 12;
       const vSteps = isBud ? 9 : 11;
       const goldenAngle = 2.3999632;
 
       function petalPos(t, thetaK, u, v) {
-        const halfSpan = (isBud ? 0.98 : 0.94) - 0.20 * t;
+        const halfSpan = (isBud ? 1.04 : 1.02) - 0.28 * t;
         const theta = thetaK + u * halfSpan;
 
-        const r0 = (isBud ? 0.03 : 0.05) + (isBud ? 0.10 : 0.18) * t;
-        const r1 = (isBud ? 0.16 : 0.25) + (isBud ? 0.34 : 0.78) * Math.pow(t, 0.86);
+        // Tighter inner spiral bud transitioning smoothly into wide cupped outer petals
+        const r0 = (isBud ? 0.025 : 0.032) + (isBud ? 0.085 : 0.185) * t;
+        const r1 = (isBud ? 0.145 : 0.215) + (isBud ? 0.30 : 0.72) * Math.pow(t, 0.86);
 
-        const cup = Math.pow(Math.sin(v * Math.PI * 0.5), isBud ? 0.92 : 0.74);
-        const widthTaper = 1 - 0.15 * u * u;
-        let r = r0 + (r1 - r0) * cup * widthTaper;
+        const cup = Math.pow(Math.sin(v * Math.PI * 0.5), isBud ? 0.94 : 0.72);
+        const widthProfile = 1 - 0.13 * u * u;
+        let r = r0 + (r1 - r0) * cup * widthProfile;
 
-        const cv = Math.max(0, (v - 0.58) / 0.42);
-        const curlFactor = isBud ? 0.04 : (0.06 + 0.25 * t);
-        const rimCurl = cv * cv * curlFactor * (1 - 0.35 * u * u);
+        // Graceful recurved outer lip along top 38% of petal
+        const cv = Math.max(0, (v - 0.62) / 0.38);
+        const curlAmt = isBud ? (0.02 + 0.055 * t) : (0.055 + 0.29 * Math.pow(t, 1.05));
+        const rimCurl = cv * cv * curlAmt * (1 - 0.24 * u * u);
         r += rimCurl;
 
-        const y0 = -0.14 - 0.14 * t;
-        const heightSpan = (isBud ? 0.72 : 0.68) + 0.26 * t;
-        const rimArch = 1 - 0.40 * u * u + 0.05 * Math.cos(3.0 * u);
-        const y = y0 + heightSpan * Math.pow(v, 0.84) * rimArch - rimCurl * 0.55;
+        // High-centered classic rose profile with delicate wave along upper rim
+        const y0 = -0.15 - 0.15 * t;
+        const heightSpan = (isBud ? 0.80 : 0.75) + (isBud ? 0.10 : 0.18) * (1 - 0.42 * t);
+        const rimArch = 1 - 0.35 * u * u + 0.045 * Math.cos(3.0 * u);
+        const y = y0 + heightSpan * Math.pow(v, 0.82) * rimArch - rimCurl * 0.60;
 
         return [r * Math.sin(theta), y, r * Math.cos(theta)];
       }
 
       for (let k = 0; k < numPetals; k++) {
         const t = k / (numPetals - 1);
-        const thetaK = k * goldenAngle + bloomId * 0.7;
+        const thetaK = k * goldenAngle + bloomId * 0.95;
 
         for (let iu = 0; iu <= uSteps; iu++) {
           const u = (iu / uSteps) * 2 - 1;
@@ -558,7 +511,7 @@
             const v = iv / vSteps;
 
             const [px, py, pz] = petalPos(t, thetaK, u, v);
-            const eps = 0.03;
+            const eps = 0.025;
             const [ux, uy, uz] = petalPos(t, thetaK, Math.min(1, u + eps), v);
             const [vx, vy, vz] = petalPos(t, thetaK, u, Math.min(1, v + eps));
 
@@ -569,90 +522,176 @@
             let ny = duz * dvx - dux * dvz;
             let nz = dux * dvy - duy * dvx;
 
-            const dotOut = nx * px + nz * pz;
-            if (dotOut < 0) { nx = -nx; ny = -ny; nz = -nz; }
+            // Ensure normals consistently face outward from rose axis
+            if (nx * px + nz * pz < 0) {
+              nx = -nx; ny = -ny; nz = -nz;
+            }
 
-            const ao = 0.38 + 0.45 * t + 0.38 * Math.pow(v, 1.4);
+            // Deep velvety AO in petal crevices & center, bright on upper outer faces
+            const radialDepth = 0.26 + 0.36 * Math.pow(t, 0.85);
+            const verticalLift = 0.44 * Math.pow(v, 1.35);
+            const ao = Math.min(1.05, radialDepth + verticalLift);
+
+            // Crisp petal-edge rim highlight along the curled lip & side silhouette
+            let rim = 0;
+            if (v > 0.74) {
+              const lipT = (v - 0.74) / 0.26;
+              rim = Math.pow(lipT, 1.28) * (0.58 + 0.42 * (1 - 0.35 * u * u));
+              // Slight modulation so innermost rosette swirl stays crisp and distinct
+              rim *= (0.76 + 0.28 * t);
+            }
+            if (Math.abs(u) > 0.86 && v > 0.42) {
+              const sideRim = ((Math.abs(u) - 0.86) / 0.14) * v * 0.42;
+              if (sideRim > rim) rim = sideRim;
+            }
 
             const [wx, wy, wz] = rotVec(px * scale, py * scale, pz * scale, rx, ry, rz);
             const [wnx, wny, wnz] = rotVec(nx, ny, nz, rx, ry, rz);
 
-            pushPoint(cx + wx, cy + wy, cz + wz, wnx, wny, wnz, 0, ao, bloomId);
+            pushPoint(
+              cx + wx, cy + wy, cz + wz,
+              wnx, wny, wnz,
+              0, ao, rim, bloomId,
+              wx, wy, wz
+            );
           }
         }
       }
 
-      // Green Sepals / Calyx
+      // Sculpted Green Sepals / Calyx cupping the base of the rose
       const numSepals = 5;
       for (let s = 0; s < numSepals; s++) {
-        const ang = (s / numSepals) * Math.PI * 2 + 0.3;
-        for (let sv = 0; sv <= 7; sv++) {
-          const f = sv / 7;
-          const wMax = (1 - f) * 0.14 + 0.02;
+        const ang = (s / numSepals) * Math.PI * 2 + 0.35 + bloomId * 0.4;
+        for (let sv = 0; sv <= 8; sv++) {
+          const f = sv / 8;
+          const wMax = (1 - f * 0.92) * 0.16 + 0.015;
           for (let su = -2; su <= 2; su++) {
             const u = su / 2;
-            const sr = (0.14 + f * (isBud ? 0.32 : 0.52));
-            const sy = -0.22 - f * 0.16 + Math.sin(f * Math.PI) * 0.06;
+            const sr = 0.13 + f * (isBud ? 0.34 : 0.56);
+            const sy = -0.22 - f * 0.14 + Math.sin(f * Math.PI) * 0.08;
             const sideAng = ang + (u * wMax) / sr;
             const px = sr * Math.sin(sideAng);
             const pz = sr * Math.cos(sideAng);
 
             const [wx, wy, wz] = rotVec(px * scale, sy * scale, pz * scale, rx, ry, rz);
-            const [wnx, wny, wnz] = rotVec(Math.sin(ang), -0.6, Math.cos(ang), rx, ry, rz);
-            pushPoint(cx + wx, cy + wy, cz + wz, wnx, wny, wnz, 1, 0.65 + 0.35 * f, bloomId);
+            const [wnx, wny, wnz] = rotVec(Math.sin(ang), -0.45, Math.cos(ang), rx, ry, rz);
+            const veinRim = (su === 0 ? 0.35 : 0.05) + f * 0.2;
+            pushPoint(
+              cx + wx, cy + wy, cz + wz,
+              wnx, wny, wnz,
+              1, 0.62 + 0.35 * f, veinRim, bloomId,
+              wx, wy, wz
+            );
           }
         }
       }
     }
 
-    // ── 2. Build Serrated Rose Leaves ──
-    function addLeaf(bx, by, bz, dirAngle, pitch, roll, length, width, bloomId) {
-      const uSteps = 7;
-      const vSteps = 12;
+    // ── 2. Serrated Rose Leaves with Crisp Central Vein Highlights ──
+    function addLeaf(bx, by, bz, dirAngle, pitch, roll, length, width, leafId) {
+      const uSteps = 8;
+      const vSteps = 13;
 
       for (let iv = 0; iv <= vSteps; iv++) {
         const v = iv / vSteps;
-        const serration = 1 + 0.09 * Math.sin(v * Math.PI * 7);
+        const serration = 1 + 0.11 * Math.sin(v * Math.PI * 8);
         const halfW = width * Math.sin(Math.pow(v, 0.72) * Math.PI) * serration;
 
         for (let iu = 0; iu <= uSteps; iu++) {
           const u = (iu / uSteps) * 2 - 1;
           const lx = u * halfW;
           const lz = v * length;
-          const ly = Math.sin(v * Math.PI) * 0.16 - v * v * 0.24 + Math.abs(u) * 0.05;
+          // Gentle V-fold along midrib plus natural downward arch
+          const ly = Math.sin(v * Math.PI) * 0.18 - v * v * 0.28 + Math.abs(u) * 0.065;
 
-          const nx = u * 0.45;
-          const ny = 0.88 - v * 0.35;
-          const nz = 0.2;
+          const nx = u * 0.42;
+          const ny = 0.90 - v * 0.36;
+          const nz = 0.22;
 
           const [wx, wy, wz] = rotVec(lx, ly, lz, pitch, dirAngle, roll);
           const [wnx, wny, wnz] = rotVec(nx, ny, nz, pitch, dirAngle, roll);
 
-          const ao = 0.65 + 0.35 * v + 0.12 * Math.abs(u);
-          pushPoint(bx + wx, by + wy, bz + wz, wnx, wny, wnz, 1, ao, bloomId);
+          const isMidrib = Math.abs(u) < 0.16;
+          const isEdge = Math.abs(u) > 0.85;
+          const ao = 0.56 + 0.36 * v + (isEdge ? 0.12 : 0);
+          const veinRim = isMidrib ? (0.48 * (1 - 0.3 * v)) : (isEdge ? 0.22 : 0);
+
+          pushPoint(
+            bx + wx, by + wy, bz + wz,
+            wnx, wny, wnz,
+            1, ao, veinRim, leafId,
+            wx, wy, wz
+          );
         }
       }
     }
 
-    // ── 3. Build Curved Stems + Thorns ──
+    // ── 3. Delicate Baby's Breath (Gypsophila) Sprigs ──
+    function addBabysBreath(bx, by, bz, tx, ty, tz, sprigId) {
+      // Fine stem from bouquet heart to sprig tip
+      const stemSteps = 11;
+      for (let i = 0; i <= stemSteps; i++) {
+        const t = i / stemSteps;
+        const arch = Math.sin(t * Math.PI) * 0.08;
+        const sx = bx + (tx - bx) * t;
+        const sy = by + (ty - by) * t + arch;
+        const sz = bz + (tz - bz) * t;
+        pushPoint(sx, sy, sz, 0, 1, 0.3, 6, 0.62, 0.1, sprigId, sx - bx, sy - by, sz - bz);
+      }
+
+      // Airy cluster of 6–8 tiny cream/ivory florets branching from the tip
+      const offsets = [
+        [0.00, 0.06, 0.02, 1],
+        [-0.14, 0.12, 0.06, 2],
+        [0.15, 0.10, -0.05, 1],
+        [-0.08, -0.06, 0.13, 3],
+        [0.10, -0.04, 0.12, 2],
+        [0.02, 0.19, -0.08, 1],
+        [-0.17, 0.00, -0.08, 4],
+        [0.16, 0.02, 0.09, 3]
+      ];
+
+      for (let f = 0; f < offsets.length; f++) {
+        const [ox, oy, oz, glyphId] = offsets[f];
+        // Tiny twig connecting to floret
+        const mx = tx + ox * 0.55;
+        const my = ty + oy * 0.55;
+        const mz = tz + oz * 0.55;
+        pushPoint(mx, my, mz, 0, 1, 0.4, 6, 0.65, 0.1, sprigId, ox * 0.55, oy * 0.55, oz * 0.55);
+
+        // Glowing floret point (plus tiny halo core for crisp visibility)
+        const fx = tx + ox;
+        const fy = ty + oy;
+        const fz = tz + oz;
+        const lumBoost = (f % 2 === 0) ? 0.98 : 0.80;
+        pushPoint(
+          fx, fy, fz,
+          0.1, 0.8, 0.6,
+          5, lumBoost, 0.65, sprigId,
+          ox, oy, oz, glyphId
+        );
+      }
+    }
+
+    // ── 4. Curved Stems + Subtle Golden Thorns ──
     function addStem(topX, topY, topZ, botX, botY, botZ, radius, hasThorns) {
-      const waistY = -1.55;
-      const waistX = topX * 0.14;
-      const waistZ = topZ * 0.14;
+      const waistY = -1.45;
+      const waistX = topX * 0.13;
+      const waistZ = topZ * 0.13;
       const steps = 36;
       const radialSteps = 8;
 
       for (let i = 0; i <= steps; i++) {
         const t = i / steps;
         let sx, sy, sz;
-        if (t < 0.68) {
-          const u = t / 0.68;
+        if (t < 0.66) {
+          const u = t / 0.66;
           const ease = u * u * (3 - 2 * u);
           sx = topX + (waistX - topX) * ease;
           sy = topY + (waistY - topY) * u;
           sz = topZ + (waistZ - topZ) * ease;
         } else {
-          const u = (t - 0.68) / 0.32;
+          const u = (t - 0.66) / 0.34;
           sx = waistX + (botX - waistX) * u;
           sy = waistY + (botY - waistY) * u;
           sz = waistZ + (botZ - waistZ) * u;
@@ -662,380 +701,893 @@
           const ang = (j / radialSteps) * Math.PI * 2;
           const nx = Math.cos(ang);
           const nz = Math.sin(ang);
-          pushPoint(sx + nx * radius, sy, sz + nz * radius, nx, 0.1, nz, 1, 0.72, -1);
+          pushPoint(sx + nx * radius, sy, sz + nz * radius, nx, 0.1, nz, 1, 0.68, 0.08, -1);
         }
 
-        if (hasThorns && (i === 10 || i === 18 || i === 31)) {
-          const tAng = i * 2.1;
+        // Subtle golden thorns peeking near visible stem segments
+        if (hasThorns && (i === 11 || i === 29 || i === 33)) {
+          const tAng = i * 2.25;
           for (let k = 1; k <= 3; k++) {
             const tr = radius + k * 0.032;
             pushPoint(
               sx + Math.cos(tAng) * tr,
-              sy + k * 0.015,
+              sy + k * 0.014,
               sz + Math.sin(tAng) * tr,
               Math.cos(tAng), 0.4, Math.sin(tAng),
-              4, 1.0, -1
+              4, 0.95, 0.4, -1
             );
           }
         }
       }
     }
 
-    // ── 4. Build Pleated Florist Wrapping Paper Cone ──
+    // ── 5. Pleated White/Silver Florist Wrapping Paper Fan Collar ──
     function addWrappingPaper() {
-      const waistY = -1.55;
-      const waistR = 0.36;
-      const thetaSteps = 68;
-      const vSteps = 22;
+      const waistY = -1.45;
+      const waistR = 0.38;
+      const thetaSteps = 84;
+      const vSteps = 24;
 
       for (let it = 0; it < thetaSteps; it++) {
         const theta = (it / thetaSteps) * Math.PI * 2;
+        // High pleated fan in the back (theta = PI), low sculpted V-collar in the front (theta = 0)
         const backFactor = 0.5 - 0.5 * Math.cos(theta);
-        const topY = -0.35 + 1.85 * Math.pow(backFactor, 0.85);
-        const topR = 1.48 + 0.58 * backFactor;
-        const pleat = 0.055 * Math.sin(theta * 14);
+        const topY = -0.46 + 2.48 * Math.pow(backFactor, 0.84);
+        const topR = 1.48 + 0.78 * backFactor;
+        const pleatWave = Math.sin(theta * 16);
+        const pleat = 0.068 * pleatWave;
 
         for (let iv = 0; iv <= vSteps; iv++) {
           const v = iv / vSteps;
           const y = waistY + (topY - waistY) * v;
-          const r = waistR + (topR - waistR) * Math.pow(v, 0.92) + pleat * v;
+          const r = waistR + (topR - waistR) * Math.pow(v, 0.90) + pleat * v;
 
           const px = r * Math.sin(theta);
           const pz = r * Math.cos(theta);
 
-          const pleatNorm = 0.35 * Math.cos(theta * 14);
+          const pleatNorm = 0.44 * Math.cos(theta * 16);
           const nx = Math.sin(theta) + pleatNorm * Math.cos(theta);
           const nz = Math.cos(theta) - pleatNorm * Math.sin(theta);
-          const ny = -0.25;
+          const ny = -0.22;
 
-          const ao = 0.62 + 0.35 * v + 0.12 * Math.sin(theta * 14);
-          pushPoint(px, y, pz, nx, ny, nz, 2, ao, -1);
+          // Strong crease contrast between deep folds and bright outer ridges + crisp top rim
+          const isTopEdge = v > 0.92;
+          const ao = 0.46 + 0.34 * v + 0.24 * pleatWave;
+          const rim = (isTopEdge ? 0.48 : 0) + Math.max(0, pleatWave) * 0.22;
+          pushPoint(px, y, pz, nx, ny, nz, 2, ao, rim, -1);
         }
       }
 
-      const skirtSteps = 12;
-      for (let it = 0; it < 54; it++) {
-        const theta = (it / 54) * Math.PI * 2;
-        const pleat = 0.04 * Math.sin(theta * 12);
+      // Flared pleated lower skirt below the ribbon waist
+      const skirtSteps = 13;
+      for (let it = 0; it < 64; it++) {
+        const theta = (it / 64) * Math.PI * 2;
+        const pleatWave = Math.sin(theta * 14);
+        const pleat = 0.048 * pleatWave;
         for (let iv = 0; iv <= skirtSteps; iv++) {
           const v = iv / skirtSteps;
-          const y = waistY - v * 0.88;
-          const r = waistR + v * 0.56 + pleat * v;
+          const y = waistY - v * 0.90;
+          const r = waistR + v * 0.62 + pleat * v;
           const px = r * Math.sin(theta);
           const pz = r * Math.cos(theta);
-          pushPoint(px, y, pz, Math.sin(theta), 0.15, Math.cos(theta), 2, 0.58 + 0.25 * (1 - v), -1);
+          const ao = 0.48 + 0.24 * (1 - v) + 0.20 * pleatWave;
+          const rim = (v > 0.90 ? 0.32 : 0) + Math.max(0, pleatWave) * 0.16;
+          pushPoint(px, y, pz, Math.sin(theta), 0.14, Math.cos(theta), 2, ao, rim, -1);
         }
       }
     }
 
-    // ── 5. Build Satin Ribbon Band, 3D Bow Loops & Flowing Tails ──
+    // ── 6. Vivid Satin Ribbon Band, Lush 3D Double Bow Loops & Fluttering Tails ──
     function addRibbonAndBow() {
-      const waistY = -1.55;
-      const bandR = 0.39;
+      const waistY = -1.45;
+      const bandR = 0.415;
 
-      for (let it = 0; it < 56; it++) {
-        const theta = (it / 56) * Math.PI * 2;
-        for (let iy = -2; iy <= 2; iy++) {
-          const y = waistY + iy * 0.032;
-          const r = bandR + 0.015 * Math.cos(iy * 0.7);
-          pushPoint(r * Math.sin(theta), y, r * Math.cos(theta), Math.sin(theta), iy * 0.2, Math.cos(theta), 3, 0.88, -1);
+      // Satin cinched waist band
+      for (let it = 0; it < 64; it++) {
+        const theta = (it / 64) * Math.PI * 2;
+        for (let iy = -3; iy <= 3; iy++) {
+          const y = waistY + iy * 0.028;
+          const r = bandR + 0.018 * Math.cos((iy / 3) * 1.1);
+          const sheen = Math.abs(iy) <= 1 ? 0.32 : 0.05;
+          pushPoint(
+            r * Math.sin(theta), y, r * Math.cos(theta),
+            Math.sin(theta), iy * 0.16, Math.cos(theta),
+            3, 0.80, sheen, -1
+          );
         }
       }
 
-      for (let u = -3; u <= 3; u++) {
-        for (let v = -3; v <= 3; v++) {
-          const kx = (u / 3) * 0.12;
-          const ky = waistY + (v / 3) * 0.11;
-          const kz = bandR + 0.09 * Math.cos((u / 3) * 1.2) * Math.cos((v / 3) * 1.2);
-          pushPoint(kx, ky, kz, kx * 2, ky - waistY, 1.0, 3, 1.05, -1);
+      // Sculpted satin center knot
+      for (let u = -4; u <= 4; u++) {
+        for (let v = -4; v <= 4; v++) {
+          const nu = u / 4, nv = v / 4;
+          const kx = nu * 0.14;
+          const ky = waistY + nv * 0.13;
+          const kz = bandR + 0.11 * Math.cos(nu * 1.25) * Math.cos(nv * 1.25);
+          const sheen = Math.max(0, 1 - Math.hypot(nu, nv)) * 0.48;
+          pushPoint(kx, ky, kz, kx * 2.2, ky - waistY, 1.0, 3, 0.95, sheen, -1);
         }
       }
 
+      // Lush double 3D bow loops + graceful fluttering tails on left & right
       for (const side of [-1, 1]) {
-        for (let it = 0; it <= 24; it++) {
-          const t = (it / 24) * Math.PI * 2;
-          const loopLen = 0.54 * Math.sin(t * 0.5);
-          const loopH = 0.20 * Math.sin(t);
+        // Primary upper sculpted loop
+        for (let it = 0; it <= 28; it++) {
+          const t = (it / 28) * Math.PI * 2;
+          const loopLen = 0.64 * Math.sin(t * 0.5);
+          const loopH = 0.23 * Math.sin(t) + 0.05;
           for (let iw = -3; iw <= 3; iw++) {
-            const w = (iw / 3) * 0.09;
-            const bx = side * (0.08 + loopLen);
-            const by = waistY + loopH + w * 0.7;
-            const bz = bandR + 0.07 + 0.12 * Math.sin(t * 0.5) - Math.abs(w) * 0.3;
-            pushPoint(bx, by, bz, side * 0.3, w * 3, 0.9, 3, 0.95 + 0.15 * Math.sin(t * 0.5), -1);
+            const w = (iw / 3) * 0.105;
+            const bx = side * (0.09 + loopLen);
+            const by = waistY + loopH + w * 0.72;
+            const bz = bandR + 0.08 + 0.16 * Math.sin(t * 0.5) - Math.abs(w) * 0.34;
+            const rim = (Math.abs(iw) === 3 ? 0.38 : 0.15) + 0.25 * Math.sin(t * 0.5);
+            pushPoint(bx, by, bz, side * 0.28, w * 2.6, 0.92, 3, 0.86 + 0.15 * Math.sin(t * 0.5), rim, -1);
           }
         }
 
-        for (let iv = 0; iv <= 18; iv++) {
-          const v = iv / 18;
+        // Secondary fuller lower loop for authentic florist bow depth
+        for (let it = 0; it <= 22; it++) {
+          const t = (it / 22) * Math.PI * 2;
+          const loopLen = 0.48 * Math.sin(t * 0.5);
+          const loopH = 0.15 * Math.sin(t) - 0.14;
           for (let iw = -2; iw <= 2; iw++) {
-            const w = (iw / 2) * 0.065;
-            const tx = side * (0.10 + v * 0.34 + 0.05 * Math.sin(v * 5)) + w;
-            const ty = waistY - 0.08 - v * 0.92;
-            const tz = bandR + 0.08 + 0.06 * Math.sin(v * 4);
-            pushPoint(tx, ty, tz, side * 0.2, 0.1, 0.95, 3, 0.85 + 0.2 * (1 - v), -1);
+            const w = (iw / 2) * 0.075;
+            const bx = side * (0.08 + loopLen);
+            const by = waistY + loopH + w * 0.65;
+            const bz = bandR + 0.05 + 0.11 * Math.sin(t * 0.5);
+            pushPoint(bx, by, bz, side * 0.32, w * 2.2, 0.90, 3, 0.74 + 0.15 * Math.sin(t * 0.5), 0.22, -1);
+          }
+        }
+
+        // Flowing ribbon tails (animated smoothly in wind gusts via tailV & tailSide)
+        for (let iv = 0; iv <= 24; iv++) {
+          const v = iv / 24;
+          for (let iw = -3; iw <= 3; iw++) {
+            const u = iw / 3;
+            // Classic swallowtail V-cut at the very tip of each ribbon tail
+            if (v > 0.88 && Math.abs(u) < (v - 0.88) / 0.12 * 0.65) continue;
+            const w = u * (0.075 + 0.022 * v);
+            const tx = side * (0.11 + v * 0.44 + 0.06 * Math.sin(v * 4.5)) + w;
+            const ty = waistY - 0.08 - v * 1.06;
+            const tz = bandR + 0.09 + 0.08 * Math.sin(v * 3.8);
+            const rim = (Math.abs(iw) === 3 ? 0.34 : 0.10) + 0.18 * (1 - v);
+            pushPoint(
+              tx, ty, tz,
+              side * 0.22, 0.12, 0.96,
+              3, 0.78 + 0.20 * (1 - v), rim, -1,
+              0, 0, 0, 0,
+              v, side
+            );
           }
         }
       }
     }
 
-    // ── Assemble the Complete Bouquet ──
-    addRose(0.0, 1.18, 0.12, 0.22, 0.0, 0.0, 0.76, false, 0);
+    // ── Assemble the Balanced, Tiered 9-Rose Bouquet + Baby's Breath + Foliage ──
 
-    const ringR = 1.02;
-    const ringAngles = [0.42, 1.98, 3.55, 5.12];
-    ringAngles.forEach((ang, idx) => {
-      const rx = ringR * Math.sin(ang);
-      const rz = ringR * Math.cos(ang);
-      const tilt = 0.54;
-      addRose(rx, 0.72, rz, Math.cos(ang) * tilt, ang, -Math.sin(ang) * tilt, 0.68, false, idx + 1);
+    // 1. Centerpiece Hero Rose (top-center, tilted gracefully toward the viewer)
+    addRose(0.0, 1.38, 0.32, 0.46, 0.0, 0.0, 0.80, false, 0);
+
+    // 2. Balanced Crown of 4 Medium-Large Full Roses around the hero
+    addRose(-1.24, 0.86, 0.28, 0.46, -0.52, 0.42, 0.68, false, 1);  // Mid-left crown
+    addRose(1.24, 0.86, 0.28, 0.46, 0.52, -0.42, 0.68, false, 2);   // Mid-right crown
+    addRose(-0.78, 1.50, -0.46, 0.18, -0.42, 0.32, 0.63, false, 3); // Upper-left back crown
+    addRose(0.78, 1.50, -0.46, 0.18, 0.42, -0.32, 0.63, false, 4);  // Upper-right back crown
+
+    // 3. Two Lower Front-Facing Roses near the wrapping collar
+    addRose(-0.62, 0.24, 1.02, 0.76, -0.42, 0.26, 0.65, false, 5);
+    addRose(0.62, 0.24, 1.02, 0.76, 0.42, -0.26, 0.65, false, 6);
+
+    // 4. Two Slender Rosebuds peeking gracefully from upper-left & upper-right flanks
+    addRose(-1.66, 1.44, -0.18, 0.12, -0.95, 0.58, 0.54, true, 7);
+    addRose(1.66, 1.44, -0.18, 0.12, 0.95, -0.58, 0.54, true, 8);
+
+    // 5. Delicate Baby's Breath (Gypsophila) Sprigs separating the crimson roses
+    const babyBreathSpecs = [
+      [-0.25, 0.65, 0.10, -0.62, 1.24, 0.58],
+      [0.25, 0.65, 0.10, 0.62, 1.24, 0.58],
+      [0.00, 0.25, 0.45, 0.00, 0.72, 1.06],
+      [-0.55, 0.15, 0.45, -1.04, 0.40, 0.88],
+      [0.55, 0.15, 0.45, 1.04, 0.40, 0.88],
+      [-0.20, 1.15, -0.10, -0.32, 1.92, -0.02],
+      [0.20, 1.15, -0.10, 0.32, 1.90, -0.04],
+      [-0.95, 0.55, 0.05, -1.56, 0.72, 0.42],
+      [0.95, 0.55, 0.05, 1.56, 0.72, 0.42],
+      [-0.85, 0.95, -0.25, -1.28, 1.62, -0.22],
+      [0.85, 0.95, -0.25, 1.28, 1.62, -0.22],
+      [0.00, -0.15, 0.65, 0.00, 0.04, 1.26]
+    ];
+    babyBreathSpecs.forEach(([bx, by, bz, tx, ty, tz], idx) => {
+      addBabysBreath(bx, by, bz, tx, ty, tz, 9 + (idx % 6));
     });
 
-    addRose(-0.78, 0.25, 0.96, 0.68, -0.68, 0.45, 0.62, false, 5);
-    addRose(0.82, 0.28, 0.92, 0.66, 0.72, -0.45, 0.62, false, 6);
-    addRose(-1.18, 0.64, -0.22, -0.15, -1.65, 0.65, 0.56, true, 7);
-    addRose(1.16, 0.62, -0.25, -0.15, 1.65, -0.65, 0.56, true, 8);
+    // 6. Sculpted Serrated Emerald-to-Mint Leaves framing the bouquet edges
+    const leafSpecs = [
+      // Front-lower collar leaves
+      [-0.98, 0.05, 0.88, -0.82, 0.48, 0.15, 0.95, 0.36],
+      [0.98, 0.05, 0.88, 0.82, 0.48, -0.15, 0.95, 0.36],
+      [-0.26, -0.12, 1.05, -0.28, 0.62, 0.08, 0.82, 0.32],
+      [0.26, -0.12, 1.05, 0.28, 0.62, -0.08, 0.82, 0.32],
+      // Mid-flank framing leaves
+      [-1.36, 0.46, 0.25, -1.48, 0.36, 0.18, 0.98, 0.36],
+      [1.36, 0.46, 0.25, 1.48, 0.36, -0.18, 0.98, 0.36],
+      [-1.48, 1.05, -0.10, -1.68, 0.15, 0.22, 0.92, 0.34],
+      [1.48, 1.05, -0.10, 1.68, 0.15, -0.22, 0.92, 0.34],
+      // Upper crown leaves
+      [-1.08, 1.48, -0.36, -2.05, 0.08, 0.15, 0.88, 0.33],
+      [1.08, 1.48, -0.36, 2.05, 0.08, -0.15, 0.88, 0.33],
+      [-0.45, 1.66, -0.58, -2.65, 0.12, 0.05, 0.86, 0.32],
+      [0.45, 1.66, -0.58, 2.65, 0.12, -0.05, 0.86, 0.32],
+      // Back leaves (visible when user drags to rotate 360°)
+      [-0.95, 0.52, -0.78, -2.45, 0.42, 0.0, 0.92, 0.35],
+      [0.95, 0.52, -0.78, 2.45, 0.42, 0.0, 0.92, 0.35]
+    ];
+    leafSpecs.forEach(([bx, by, bz, dir, pitch, roll, len, wid], idx) => {
+      addLeaf(bx, by, bz, dir, pitch, roll, len, wid, 15 + (idx % 6));
+    });
 
-    for (let i = 0; i < 10; i++) {
-      const ang = (i / 10) * Math.PI * 2 + 0.2;
-      const r = 1.05;
-      addLeaf(
-        r * Math.sin(ang),
-        0.18 + (i % 2) * 0.14,
-        r * Math.cos(ang),
-        ang,
-        0.42,
-        0,
-        0.88,
-        0.34,
-        i % 7
-      );
-    }
-
+    // 7. Curved Stems + Subtle Golden Thorns converging through the cinched waist
     const stemTops = [
-      [0.0, 0.95, 0.08],
-      [0.42, 0.52, 0.85],
-      [0.85, 0.52, -0.35],
-      [-0.38, 0.52, -0.88],
-      [-0.86, 0.52, 0.34],
-      [-0.65, 0.12, 0.78],
-      [0.68, 0.14, 0.75]
+      [0.0, 1.15, 0.25],
+      [-1.05, 0.65, 0.22],
+      [1.05, 0.65, 0.22],
+      [-0.65, 1.28, -0.40],
+      [0.65, 1.28, -0.40],
+      [-0.55, 0.08, 0.88],
+      [0.55, 0.08, 0.88],
+      [-1.42, 1.22, -0.14],
+      [1.42, 1.22, -0.14]
     ];
     stemTops.forEach(([tx, ty, tz], idx) => {
-      addStem(tx, ty, tz, tx * 0.24, -2.62, tz * 0.24, 0.045, idx % 2 === 0);
+      addStem(tx, ty, tz, tx * 0.23, -2.56, tz * 0.23, 0.044, idx % 2 === 0);
     });
 
+    // 8. Pleated Wrapping Paper & Vivid Satin Bow
     addWrappingPaper();
     addRibbonAndBow();
 
+    // Pack geometry into flat TypedArrays for silky-smooth 60 FPS projection
+    const NUM_POINTS = rawPx.length;
+    const P_X = new Float32Array(rawPx);
+    const P_Y = new Float32Array(rawPy);
+    const P_Z = new Float32Array(rawPz);
+    const N_X = new Float32Array(rawNx);
+    const N_Y = new Float32Array(rawNy);
+    const N_Z = new Float32Array(rawNz);
+    const O_X = new Float32Array(rawOx);
+    const O_Y = new Float32Array(rawOy);
+    const O_Z = new Float32Array(rawOz);
+    const P_AO = new Float32Array(rawAo);
+    const P_RIM = new Float32Array(rawRim);
+    const P_MAT = new Uint8Array(rawMat);
+    const P_BLOOM = new Int8Array(rawBloom);
+    const P_GLYPH = new Uint8Array(rawGlyph);
+    const P_TAILV = new Float32Array(rawTailV);
+    const P_TAILS = new Int8Array(rawTailSide);
+
     // ══════════════════════════════════════════════════════════════
-    //   REAL-TIME 3D ASCII RENDERER + SWAY & SPIN ENGINE
+    //   HIGH-DPI CANVAS ASCII RENDERER + LIVING WIND & INTERACTION
     // ══════════════════════════════════════════════════════════════
-    const bouquetEl = document.getElementById('bouquet');
+    const bouquetCanvas = document.getElementById('bouquet-canvas');
+    const bCtx = bouquetCanvas.getContext('2d');
 
-    const COLS = 94;
-    const ROWS = 46;
-    const SIZE = COLS * ROWS;
+    const COLS = 108;
+    const ROWS = 52;
+    const GRID_SIZE = COLS * ROWS;
 
-    const zBuf = new Float32Array(SIZE);
-    const charBuf = new Uint8Array(SIZE);
-    const colorBuf = new Uint8Array(SIZE);
+    const zBuf = new Float32Array(GRID_SIZE);
+    const charBuf = new Uint8Array(GRID_SIZE);     // Standard ASCII char code
+    const specialBuf = new Uint8Array(GRID_SIZE);  // 0 = normal ASCII, >0 = Unicode symbol
+    const colorBuf = new Uint8Array(GRID_SIZE);
 
-    const RAMP = " .,-~:;=!*#$@";
+    // Authentic ASCII luminance ramp (darkest crevice -> brightest crest)
+    const RAMP = " .,:;-=+*#%@";
+    const RAMP_CODES = new Uint8Array(RAMP.length);
+    for (let i = 0; i < RAMP.length; i++) RAMP_CODES[i] = RAMP.charCodeAt(i);
 
+    // Extended special glyphs (indices 1..4 baby's breath, 5..8 orbiting sparkles/hearts)
+    const UNICODE_TABLE = ['', '*', '+', '°', '·', '✦', '✧', '♥', '·'];
+
+    // Controlled Luminance Palette:
+    // Dark & midtone folds stay razor-sharp (glow = 0); bright petal rims, baby's breath,
+    // satin specular highlights, and orbiting sparkles receive tight, clean luminance glow.
     const PALETTE = [
-      '',
-      'r0', 'r1', 'r2', 'r3', 'r4', 'r5',
-      'g0', 'g1', 'g2', 'g3',
-      'w0', 'w1', 'w2', 'w3',
-      'b0', 'b1', 'b2',
-      'th',
-      'sp',
-      'ht'
+      null,
+      // 1..7 Rose Petals (deep velvet crimson crevices -> luminous pink/blush-white rims)
+      { fill: '#5e0219', glow: null, blur: 0 },                        // 1: r0 deepest crevice
+      { fill: '#940a2b', glow: null, blur: 0 },                        // 2: r1 dark inner fold
+      { fill: '#c9143b', glow: null, blur: 0 },                        // 3: r2 rich classic red
+      { fill: '#ee2751', glow: null, blur: 0 },                        // 4: r3 vibrant ruby face
+      { fill: '#ff5d82', glow: 'rgba(255, 93, 130, 0.52)', blur: 5 },  // 5: r4 bright rose lip
+      { fill: '#ffa0b8', glow: 'rgba(255, 160, 184, 0.70)', blur: 7 }, // 6: r5 curled rim glow
+      { fill: '#ffe6ee', glow: 'rgba(255, 224, 236, 0.88)', blur: 9 }, // 7: r6 blush-white crest
+      // 8..11 Foliage, Calyx & Stems (deep forest -> emerald -> mint central vein)
+      { fill: '#124e28', glow: null, blur: 0 },                        // 8: g0 dark emerald
+      { fill: '#218744', glow: null, blur: 0 },                        // 9: g1 leaf green
+      { fill: '#3ecb66', glow: null, blur: 0 },                        // 10: g2 sunlit emerald
+      { fill: '#8ef5a8', glow: 'rgba(142, 245, 168, 0.45)', blur: 4 }, // 11: g3 mint vein highlight
+      // 12..15 Pleated White/Silver Florist Wrapping Paper
+      { fill: '#52586c', glow: null, blur: 0 },                        // 12: w0 deep crease
+      { fill: '#828aa2', glow: null, blur: 0 },                        // 13: w1 shaded silver
+      { fill: '#c2cadf', glow: null, blur: 0 },                        // 14: w2 pearl paper
+      { fill: '#f0f4ff', glow: 'rgba(225, 236, 255, 0.48)', blur: 5 }, // 15: w3 crisp folded ridge
+      // 16..19 Vivid Crimson-Pink Satin Ribbon & 3D Bow
+      { fill: '#8f0c38', glow: null, blur: 0 },                        // 16: b0 satin shadow
+      { fill: '#dc1e55', glow: null, blur: 0 },                        // 17: b1 satin crimson-pink
+      { fill: '#ff5281', glow: 'rgba(255, 82, 129, 0.55)', blur: 5 },  // 18: b2 bright bow sheen
+      { fill: '#ffd4e3', glow: 'rgba(255, 212, 227, 0.80)', blur: 7 }, // 19: b3 glossy highlight
+      // 20 Golden Thorn
+      { fill: '#f5ce70', glow: 'rgba(245, 206, 112, 0.45)', blur: 4 }, // 20: th
+      // 21..23 Baby's Breath (Gypsophila) Florets
+      { fill: '#dcd1ba', glow: null, blur: 0 },                        // 21: bb0 warm cream
+      { fill: '#fff5de', glow: 'rgba(255, 244, 212, 0.62)', blur: 6 }, // 22: bb1 ivory glow
+      { fill: '#ffffff', glow: 'rgba(255, 252, 232, 0.88)', blur: 8 }, // 23: bb2 pearl peak
+      // 24..26 Orbiting 3D Sparkles & Hearts
+      { fill: '#ffd4e6', glow: 'rgba(255, 196, 222, 0.85)', blur: 8 }, // 24: sp0 blush sparkle
+      { fill: '#fff2ba', glow: 'rgba(255, 236, 165, 0.85)', blur: 8 }, // 25: sp1 starlight
+      { fill: '#ff244e', glow: 'rgba(255, 36, 78, 0.92)', blur: 10 }   // 26: ht glowing heart
     ];
 
-    const ambientAccents = [
-      { x: -1.85, y: 1.55, z: 0.40, ch: '✦', col: 19, phase: 0.0 },
-      { x: 1.90, y: 1.45, z: -0.35, ch: '♥', col: 20, phase: 1.2 },
-      { x: -1.65, y: 0.10, z: 1.25, ch: '♥', col: 20, phase: 2.4 },
-      { x: 1.72, y: 0.25, z: 1.15, ch: '✦', col: 19, phase: 3.6 },
-      { x: 0.00, y: 2.05, z: 0.20, ch: '✦', col: 19, phase: 4.8 },
-      { x: -1.55, y: 1.20, z: -1.10, ch: '♥', col: 20, phase: 5.5 },
-      { x: 1.50, y: 1.15, z: -1.15, ch: '✦', col: 19, phase: 1.9 }
+    // Pre-allocated glow buckets (avoid per-frame array allocations)
+    const glowBuckets = Array.from({ length: PALETTE.length }, () => []);
+
+    // ── Responsive High-DPI Character Grid Metrics ──
+    let cellW = 7, cellH = 12, fontSize = 11, charAspect = 1.75;
+    let canvasCssW = 760, canvasCssH = 620, dpr = 1;
+
+    function measureAndResizeBouquet() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const maxW = Math.min(window.innerWidth - 20, 820);
+      const maxH = Math.min(window.innerHeight * 0.64, 580);
+
+      // Measure actual advance width ratio of our monospace font at 20px
+      bCtx.font = '600 20px "Fira Code", "Courier New", monospace';
+      const ratio = (bCtx.measureText('M').width || 12) / 20;
+
+      // Fit both width and comfortable hero height
+      const fontByW = maxW / (COLS * ratio);
+      const fontByH = maxH / (ROWS * 1.06);
+      fontSize = Math.max(5.8, Math.min(12.2, fontByW, fontByH));
+
+      bCtx.font = `600 ${fontSize}px "Fira Code", "Courier New", monospace`;
+      cellW = bCtx.measureText('M').width || fontSize * 0.6;
+      cellH = fontSize * 1.06;
+      charAspect = cellH / cellW;
+
+      canvasCssW = Math.ceil(COLS * cellW) + 6;
+      canvasCssH = Math.ceil(ROWS * cellH) + 6;
+
+      bouquetCanvas.style.width = `${canvasCssW}px`;
+      bouquetCanvas.style.height = `${canvasCssH}px`;
+      bouquetCanvas.width = Math.round(canvasCssW * dpr);
+      bouquetCanvas.height = Math.round(canvasCssH * dpr);
+    }
+
+    measureAndResizeBouquet();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(measureAndResizeBouquet);
+    }
+    window.addEventListener('resize', () => {
+      resizeStarfield();
+      measureAndResizeBouquet();
+    });
+
+    // ── 3D Z-Buffered Orbiting Sparkles & Fireflies ──
+    const orbitingAccents = [
+      { rad: 2.15, yBase: 1.65, spd: 0.42, phase: 0.2, ampY: 0.22, glyph: 5, col: 24 },
+      { rad: 2.28, yBase: 1.25, spd: -0.34, phase: 1.5, ampY: 0.26, glyph: 7, col: 26 },
+      { rad: 1.98, yBase: 0.25, spd: 0.38, phase: 2.7, ampY: 0.20, glyph: 6, col: 25 },
+      { rad: 2.22, yBase: 0.65, spd: -0.45, phase: 3.9, ampY: 0.18, glyph: 5, col: 24 },
+      { rad: 1.68, yBase: 2.02, spd: 0.52, phase: 4.9, ampY: 0.16, glyph: 6, col: 25 },
+      { rad: 2.10, yBase: 1.48, spd: 0.31, phase: 5.8, ampY: 0.24, glyph: 7, col: 26 },
+      { rad: 1.95, yBase: -0.35, spd: -0.37, phase: 0.9, ampY: 0.22, glyph: 8, col: 25 },
+      { rad: 2.32, yBase: 0.95, spd: 0.29, phase: 2.1, ampY: 0.25, glyph: 5, col: 25 },
+      { rad: 1.75, yBase: 1.85, spd: -0.48, phase: 3.4, ampY: 0.19, glyph: 8, col: 24 },
+      { rad: 2.05, yBase: -0.95, spd: 0.35, phase: 4.3, ampY: 0.20, glyph: 6, col: 24 },
+      { rad: 1.85, yBase: 0.10, spd: -0.41, phase: 5.1, ampY: 0.24, glyph: 7, col: 26 },
+      { rad: 2.24, yBase: 1.38, spd: 0.36, phase: 1.0, ampY: 0.20, glyph: 8, col: 25 },
+      { rad: 1.60, yBase: -1.35, spd: -0.50, phase: 2.5, ampY: 0.16, glyph: 5, col: 24 },
+      { rad: 2.18, yBase: 0.55, spd: 0.44, phase: 3.8, ampY: 0.22, glyph: 8, col: 25 }
     ];
 
-    let mouseX = innerWidth / 2;
-    let mouseY = innerHeight / 2;
+    // Burst 3D sparkles spawned when clicking the bouquet
+    const burstSparkles = [];
+
+    function spawnBouquetBurst() {
+      for (let i = 0; i < 14; i++) {
+        const ang = Math.random() * Math.PI * 2;
+        const elev = (Math.random() - 0.3) * 1.4;
+        const spd = 0.8 + Math.random() * 1.4;
+        burstSparkles.push({
+          x: (Math.random() - 0.5) * 1.4,
+          y: 0.3 + Math.random() * 1.2,
+          z: 0.4 + Math.random() * 0.8,
+          vx: Math.cos(ang) * spd,
+          vy: 0.75 + Math.random() * 1.15 + elev * 0.4,
+          vz: Math.sin(ang) * spd,
+          life: 1.0,
+          glyph: i % 3 === 0 ? 7 : (i % 2 === 0 ? 5 : 6),
+          col: i % 3 === 0 ? 26 : (i % 2 === 0 ? 24 : 25)
+        });
+      }
+    }
+
+    // ── Interactive Mouse Breeze, 3D Drag Rotation & Click Shimmer Bounce ──
+    let mouseX = window.innerWidth * 0.5;
+    let mouseY = window.innerHeight * 0.5;
     let tiltX = 0, tiltZ = 0;
     let velX = 0, velZ = 0;
+
+    // User 3D drag state
+    let isDragging = false;
+    let dragMoved = false;
+    let suppressNextDocClick = false;
+    let lastPtrX = 0, lastPtrY = 0;
+    let startPtrX = 0, startPtrY = 0;
+    let userYaw = 0, userPitch = 0;
+    let yawVel = 0, pitchVel = 0;
+
+    // Springy click bounce & upward shimmer wave state
+    let bouncePos = 0, bounceVel = 0;
+    let bloomPulse = 0;
+    let shimmerProgress = -1; // -1 = inactive, 0..1 = traveling upward across bouquet
 
     document.addEventListener('mousemove', e => {
       mouseX = e.clientX;
       mouseY = e.clientY;
       document.body.style.background =
-        `radial-gradient(circle 220px at ${e.clientX}px ${e.clientY}px, rgba(255,20,60,0.06), transparent), #0a0a0f`;
+        `radial-gradient(circle 250px at ${e.clientX}px ${e.clientY}px, rgba(255,25,68,0.075), transparent), #0a0a0f`;
     });
 
-    let spinAngle = 0;
-    const spinSpeed = 0.0075;
+    bouquetCanvas.addEventListener('pointerdown', e => {
+      isDragging = true;
+      dragMoved = false;
+      startPtrX = lastPtrX = e.clientX;
+      startPtrY = lastPtrY = e.clientY;
+      yawVel = 0;
+      pitchVel = 0;
+      bouquetCanvas.classList.add('dragging');
+      try { bouquetCanvas.setPointerCapture(e.pointerId); } catch (_) { }
+    });
 
-    const lx = -0.42, ly = 0.72, lz = 0.55;
+    bouquetCanvas.addEventListener('pointermove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (!isDragging) return;
+      const dx = e.clientX - lastPtrX;
+      const dy = e.clientY - lastPtrY;
+      lastPtrX = e.clientX;
+      lastPtrY = e.clientY;
+
+      if (Math.hypot(e.clientX - startPtrX, e.clientY - startPtrY) > 6) {
+        dragMoved = true;
+      }
+
+      const dYaw = dx * 0.009;
+      const dPitch = dy * 0.007;
+      userYaw += dYaw;
+      userPitch = Math.max(-0.72, Math.min(0.72, userPitch + dPitch));
+      yawVel = dYaw;
+      pitchVel = dPitch;
+    });
+
+    function endDrag(e) {
+      if (!isDragging) return;
+      isDragging = false;
+      bouquetCanvas.classList.remove('dragging');
+      try { bouquetCanvas.releasePointerCapture(e.pointerId); } catch (_) { }
+
+      if (dragMoved) {
+        // Prevent drag release from triggering a stray floating-hearts burst
+        suppressNextDocClick = true;
+        setTimeout(() => { suppressNextDocClick = false; }, 120);
+      } else {
+        // Joyful springy bounce + upward rose shimmer wave + 3D sparkle burst!
+        bounceVel = 0.28;
+        bloomPulse = 1.0;
+        shimmerProgress = 0.0;
+        spawnBouquetBurst();
+      }
+    }
+
+    bouquetCanvas.addEventListener('pointerup', endDrag);
+    bouquetCanvas.addEventListener('pointercancel', endDrag);
+
+    // Primary directional light (upper-front-left for crisp 3D depth)
+    const lx = -0.38, ly = 0.72, lz = 0.58;
     const lLen = Math.hypot(lx, ly, lz);
     const Lx = lx / lLen, Ly = ly / lLen, Lz = lz / lLen;
 
+    // Soft warm fill light from lower-right to keep shadowed folds subtly sculpted
+    const fx = 0.52, fy = 0.18, fz = 0.65;
+    const fLen = Math.hypot(fx, fy, fz);
+    const Fx = fx / fLen, Fy = fy / fLen, Fz = fz / fLen;
+
+    // Per-bloom animated transform scratch arrays (up to 24 bloom/leaf groups)
+    const bloomBreath = new Float32Array(24);
+    const bloomBob = new Float32Array(24);
+    const bloomNodSin = new Float32Array(24);
+    const bloomNodCos = new Float32Array(24);
+
+    let lastTimeMs = 0;
+
     function renderFrame(nowMs) {
+      const dt = lastTimeMs ? Math.min(0.05, (nowMs - lastTimeMs) * 0.001) : 0.016;
+      lastTimeMs = nowMs;
       const t = nowMs * 0.001;
 
-      spinAngle += spinSpeed;
-      if (spinAngle > Math.PI * 2) spinAngle -= Math.PI * 2;
-
-      const targetTiltZ = -((mouseX - innerWidth * 0.5) / (innerWidth * 0.5)) * 0.16;
-      const targetTiltX = ((mouseY - innerHeight * 0.5) / (innerHeight * 0.5)) * 0.12;
-      velZ = (velZ + (targetTiltZ - tiltZ) * 0.03) * 0.88;
-      velX = (velX + (targetTiltX - tiltX) * 0.03) * 0.88;
+      // 1. Mouse parallax spring physics
+      const targetTiltZ = -((mouseX - window.innerWidth * 0.5) / (window.innerWidth * 0.5)) * 0.15;
+      const targetTiltX = ((mouseY - window.innerHeight * 0.5) / (window.innerHeight * 0.5)) * 0.11;
+      velZ = (velZ + (targetTiltZ - tiltZ) * 0.035) * 0.87;
+      velX = (velX + (targetTiltX - tiltX) * 0.035) * 0.87;
       tiltZ += velZ;
       tiltX += velX;
 
-      const breezeZ = Math.sin(t * 1.15) * 0.085 + Math.sin(t * 2.1) * 0.025 + tiltZ;
-      const breezeX = Math.cos(t * 0.95) * 0.055 + tiltX;
+      // 2. Smooth drag inertia & gentle return toward front showcase sway
+      if (!isDragging) {
+        userYaw += yawVel;
+        userPitch = Math.max(-0.72, Math.min(0.72, userPitch + pitchVel));
+        yawVel *= 0.93;
+        pitchVel *= 0.90;
 
+        // Wrap userYaw to [-PI, PI] so it eases back via the shortest angular path
+        if (Math.abs(yawVel) < 0.018) {
+          userYaw = ((userYaw + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI;
+          userYaw *= Math.pow(0.982, dt * 60);
+          userPitch *= Math.pow(0.958, dt * 60);
+        }
+      }
+
+      // 3. Springy bounce & upward shimmer wave from click
+      const bounceAccel = -38.0 * bouncePos - 5.4 * bounceVel;
+      bounceVel += bounceAccel * dt;
+      bouncePos += bounceVel * dt;
+      bloomPulse *= Math.pow(0.93, dt * 60);
+
+      let shimmerY = -99;
+      if (shimmerProgress >= 0) {
+        shimmerProgress += dt * 1.18;
+        shimmerY = -2.4 + shimmerProgress * 5.0;
+        if (shimmerProgress > 1.2) shimmerProgress = -1;
+      }
+
+      // 4. Layered Organic Wind, Swelling Gusts & Gentle Showcase Sway (±24°)
+      const gustWave = Math.max(0, Math.sin(t * 0.44) * Math.sin(t * 0.21 + 1.2));
+      const gust = gustWave * gustWave; // Periodic graceful wind swells
+      const breezeZ = Math.sin(t * 1.15) * 0.075 + Math.sin(t * 2.35) * 0.024 + gust * 0.16 + tiltZ;
+      const breezeX = Math.cos(t * 0.92) * 0.052 + gust * 0.065 + tiltX;
+
+      // Showcase sway gently turns ±24° left/right so the roses & bow stay prominently showcased
+      const showcaseYaw = Math.sin(t * 0.56) * 0.40 + Math.sin(t * 0.26) * 0.055;
+      const totalYaw = showcaseYaw + userYaw;
+      const totalPitch = 0.14 + breezeX * 0.36 + userPitch + bouncePos * 0.18;
+
+      const cosY = Math.cos(totalYaw), sinY = Math.sin(totalYaw);
+      const cosX = Math.cos(totalPitch), sinX = Math.sin(totalPitch);
+
+      // Precompute per-bloom living breathing, bobbing & nodding
+      for (let b = 0; b < 24; b++) {
+        const phase = b * 0.92;
+        bloomBreath[b] = 0.044 * Math.sin(t * 1.25 + phase) + bloomPulse * 0.085;
+        bloomBob[b] = Math.sin(t * 1.75 + phase) * 0.026 + gust * Math.sin(t * 3.1 + phase) * 0.018;
+        const nod = Math.sin(t * 1.35 + phase) * 0.032 + gust * 0.045;
+        bloomNodSin[b] = Math.sin(nod);
+        bloomNodCos[b] = Math.cos(nod);
+      }
+
+      // Clear Z-buffer & character grids
       zBuf.fill(-1e9);
       charBuf.fill(32);
+      specialBuf.fill(0);
       colorBuf.fill(0);
 
-      const cosY = Math.cos(spinAngle), sinY = Math.sin(spinAngle);
-      const cosX = Math.cos(0.18 + breezeX * 0.4), sinX = Math.sin(0.18 + breezeX * 0.4);
+      const camDist = 6.65;
+      const fovY = 65.5;
+      const fovX = fovY * charAspect;
+      const halfCols = COLS * 0.5;
+      const halfRows = ROWS * 0.5;
+      const yOffset = 0.28 + bouncePos * 0.22;
 
-      const camDist = 6.4;
-      const fovX = 96;
-      const fovY = 50;
-      const yOffset = 0.35;
+      // 5. Project & Shade 3D Bouquet Points
+      for (let i = 0; i < NUM_POINTS; i++) {
+        let x = P_X[i];
+        let y = P_Y[i];
+        let z = P_Z[i];
+        let nx = N_X[i];
+        let ny = N_Y[i];
+        let nz = N_Z[i];
 
-      for (let i = 0, len = points.length; i < len; i++) {
-        const p = points[i];
+        const bloomId = P_BLOOM[i];
+        if (bloomId >= 0) {
+          // Organic petal breathing (expands gently from bloom center) + subtle nod & bob
+          const ox = O_X[i], oy = O_Y[i], oz = O_Z[i];
+          const br = bloomBreath[bloomId];
+          x += ox * br;
+          y += oy * (br * 0.65) + bloomBob[bloomId];
+          z += oz * br;
 
-        const lever = Math.max(-0.5, p.y + 1.55);
-        const bendFactor = lever * Math.abs(lever) * 0.075;
-        let x = p.x + breezeZ * bendFactor;
-        let y = p.y + yOffset;
-        let z = p.z + breezeX * bendFactor;
-
-        if (p.bloomId >= 0) {
-          y += Math.sin(t * 1.8 + p.bloomId * 1.1) * 0.018;
+          // Subtle bloom nod in wind
+          const ns = bloomNodSin[bloomId], nc = bloomNodCos[bloomId];
+          const nodY = oy * nc - oz * ns;
+          const nodZ = oy * ns + oz * nc;
+          y += (nodY - oy);
+          z += (nodZ - oz);
         }
 
+        // Flowing ribbon tail flutter in wind gusts
+        const tailV = P_TAILV[i];
+        if (tailV > 0) {
+          const flutterAmp = tailV * tailV * (0.095 + gust * 0.17);
+          const wavePhase = t * 4.4 - tailV * 4.8 + P_TAILS[i] * 0.9;
+          x += Math.sin(wavePhase) * flutterAmp + breezeZ * tailV * 0.36;
+          z += Math.cos(wavePhase * 0.85) * flutterAmp * 0.85 + Math.abs(breezeX) * tailV * 0.2;
+        }
+
+        // Cantilever wind bend anchored at the cinched waist (y = -1.45), with sweeping phase lag
+        const lever = Math.max(-0.45, y + 1.45);
+        const bend = lever * Math.abs(lever) * 0.068;
+        const sweepLag = Math.sin(t * 2.1 - x * 0.7) * (0.015 + gust * 0.042);
+        x += (breezeZ + sweepLag) * bend;
+        z += breezeX * bend;
+
+        const wy = y + yOffset;
+
+        // Camera yaw + pitch rotation
         const x1 = x * cosY + z * sinY;
         const z1 = -x * sinY + z * cosY;
-        const y1 = y;
-
-        const y2 = y1 * cosX - z1 * sinX;
-        const z2 = y1 * sinX + z1 * cosX;
-        const x2 = x1;
+        const y2 = wy * cosX - z1 * sinX;
+        const z2 = wy * sinX + z1 * cosX;
 
         const depth = camDist - z2;
         if (depth <= 0.5) continue;
 
         const invZ = 1 / depth;
-        const sx = (COLS * 0.5 + x2 * fovX * invZ) | 0;
-        const sy = (ROWS * 0.5 - y2 * fovY * invZ) | 0;
-
+        const sx = (halfCols + x1 * fovX * invZ) | 0;
+        const sy = (halfRows - y2 * fovY * invZ) | 0;
         if (sx < 0 || sx >= COLS || sy < 0 || sy >= ROWS) continue;
 
         const idx = sy * COLS + sx;
         if (z2 > zBuf[idx]) {
           zBuf[idx] = z2;
 
-          const nx1 = p.nx * cosY + p.nz * sinY;
-          const nz1 = -p.nx * sinY + p.nz * cosY;
-          const ny2 = p.ny * cosX - nz1 * sinX;
-          const nz2 = p.ny * sinX + nz1 * cosX;
-          const nx2 = nx1;
+          // Rotate normal into view space
+          const nx1 = nx * cosY + nz * sinY;
+          const nz1 = -nx * sinY + nz * cosY;
+          const ny2 = ny * cosX - nz1 * sinX;
+          const nz2 = ny * sinX + nz1 * cosX;
 
-          const diff = Math.max(0, nx2 * Lx + ny2 * Ly + nz2 * Lz);
-          const rim = Math.pow(1 - Math.abs(nz2), 2.2) * 0.35;
-          let lum = (0.18 + 0.82 * diff + rim) * p.ao;
-          lum = Math.max(0.05, Math.min(1.0, lum));
+          const mat = P_MAT[i];
+          const ao = P_AO[i];
+          const rim = P_RIM[i];
 
-          const rampIdx = Math.min(RAMP.length - 1, Math.max(1, (lum * (RAMP.length - 1)) | 0));
-          charBuf[idx] = RAMP.charCodeAt(rampIdx);
+          // Shimmer wave boost on click
+          let shimmerBoost = 0;
+          if (shimmerProgress >= 0) {
+            const distS = Math.abs(y - shimmerY);
+            if (distS < 0.72) {
+              const s = 1 - distS / 0.72;
+              shimmerBoost = s * s;
+            }
+          }
 
-          if (p.mat === 0) {
-            colorBuf[idx] = 1 + Math.min(5, (lum * 5.8) | 0);
-          } else if (p.mat === 1) {
-            colorBuf[idx] = 7 + Math.min(3, (lum * 3.8) | 0);
-          } else if (p.mat === 2) {
-            colorBuf[idx] = 11 + Math.min(3, (lum * 3.8) | 0);
-          } else if (p.mat === 3) {
-            colorBuf[idx] = 15 + Math.min(2, (lum * 2.9) | 0);
+          if (mat === 5) {
+            // Baby's breath glowing ivory floret
+            const twinkle = 0.14 * Math.sin(t * 3.2 + i * 0.7);
+            const lum = Math.min(1, ao + twinkle + shimmerBoost * 0.35);
+            specialBuf[idx] = P_GLYPH[i];
+            colorBuf[idx] = lum > 0.90 ? 23 : (lum > 0.74 ? 22 : 21);
           } else {
-            colorBuf[idx] = 18;
+            const ndl = nx1 * Lx + ny2 * Ly + nz2 * Lz;
+            const diffMain = Math.max(0, ndl);
+            const diffBack = Math.max(0, -ndl) * 0.22; // Soft translucent petal velvet wrap
+            const diffFill = Math.max(0, nx1 * Fx + ny2 * Fy + nz2 * Fz) * 0.24;
+            const fresnel = Math.pow(1 - Math.abs(nz2), 2.1) * 0.22;
+
+            let lum;
+            if (mat === 0) {
+              // High-contrast rose shader: deep velvet crevices + bright curled petal rims
+              lum = (0.14 + 0.62 * diffMain + diffBack + diffFill * 0.55 + fresnel) * ao;
+              lum += rim * (0.44 + 0.20 * diffMain);
+              lum += shimmerBoost * 0.44;
+              lum = Math.max(0.05, Math.min(1.0, lum));
+              colorBuf[idx] = 1 + Math.min(6, (lum * 6.85) | 0);
+            } else if (mat === 1 || mat === 6) {
+              // Crisp emerald-to-mint leaves, sepals & stems
+              lum = (0.20 + 0.62 * diffMain + diffFill + fresnel * 0.6) * ao + rim * 0.34 + shimmerBoost * 0.28;
+              lum = Math.max(0.10, Math.min(1.0, lum));
+              colorBuf[idx] = 8 + Math.min(3, (lum * 3.85) | 0);
+            } else if (mat === 2) {
+              // Pleated white/silver wrapping paper
+              lum = (0.20 + 0.58 * diffMain + diffFill + fresnel * 0.4) * ao + rim * 0.30 + shimmerBoost * 0.22;
+              lum = Math.max(0.10, Math.min(1.0, lum));
+              colorBuf[idx] = 12 + Math.min(3, (lum * 3.85) | 0);
+            } else if (mat === 3) {
+              // Glossy satin crimson-pink ribbon & 3D bow
+              const spec = Math.pow(Math.max(0, nz2 * 0.65 + ny2 * 0.55 - nx1 * 0.25), 5) * 0.42;
+              lum = (0.22 + 0.58 * diffMain + diffFill + spec) * ao + rim * 0.28 + shimmerBoost * 0.35;
+              lum = Math.max(0.12, Math.min(1.0, lum));
+              colorBuf[idx] = 16 + Math.min(3, (lum * 3.85) | 0);
+            } else {
+              // Golden thorn
+              lum = Math.min(1.0, 0.72 + 0.28 * diffMain);
+              colorBuf[idx] = 20;
+            }
+
+            const rampIdx = Math.min(RAMP.length - 1, Math.max(1, (lum * (RAMP.length - 1) + 0.4) | 0));
+            charBuf[idx] = RAMP_CODES[rampIdx];
+            specialBuf[idx] = 0;
           }
         }
       }
 
-      const customGlyphs = new Map();
-      for (const a of ambientAccents) {
-        const bobY = a.y + yOffset + Math.sin(t * 2.2 + a.phase) * 0.14;
-        const x1 = a.x * cosY + a.z * sinY;
-        const z1 = -a.x * sinY + a.z * cosY;
-        const y2 = bobY * cosX - z1 * sinX;
-        const z2 = bobY * sinX + z1 * cosX;
+      // 6. Project 3D Z-Buffered Orbiting Sparkles & Fireflies (passing in front & behind!)
+      for (let i = 0; i < orbitingAccents.length; i++) {
+        const a = orbitingAccents[i];
+        const ang = t * a.spd + a.phase;
+        const ax = Math.cos(ang) * a.rad;
+        const az = Math.sin(ang) * a.rad * 0.88;
+        const ay = a.yBase + Math.sin(t * 1.9 + a.phase * 1.7) * a.ampY + yOffset;
+
+        // Twinkle visibility
+        if (Math.sin(t * 3.4 + a.phase * 2.3) < -0.58) continue;
+
+        const x1 = ax * cosY + az * sinY;
+        const z1 = -ax * sinY + az * cosY;
+        const y2 = ay * cosX - z1 * sinX;
+        const z2 = ay * sinX + z1 * cosX;
         const depth = camDist - z2;
         if (depth <= 0.5) continue;
 
-        const sx = (COLS * 0.5 + (x1 * fovX) / depth) | 0;
-        const sy = (ROWS * 0.5 - (y2 * fovY) / depth) | 0;
+        const sx = (halfCols + (x1 * fovX) / depth) | 0;
+        const sy = (halfRows - (y2 * fovY) / depth) | 0;
         if (sx >= 0 && sx < COLS && sy >= 0 && sy < ROWS) {
           const idx = sy * COLS + sx;
           if (z2 > zBuf[idx]) {
             zBuf[idx] = z2;
+            specialBuf[idx] = a.glyph;
             colorBuf[idx] = a.col;
-            customGlyphs.set(idx, a.ch);
           }
         }
       }
 
-      let html = '';
+      // 7. Update & Project Click-Burst 3D Sparkles
+      for (let i = burstSparkles.length - 1; i >= 0; i--) {
+        const p = burstSparkles[i];
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.z += p.vz * dt;
+        p.vy -= 1.2 * dt; // Gentle gravity arc
+        p.life -= dt * 0.92;
+        if (p.life <= 0) {
+          burstSparkles.splice(i, 1);
+          continue;
+        }
+        const x1 = p.x * cosY + p.z * sinY;
+        const z1 = -p.x * sinY + p.z * cosY;
+        const ay = p.y + yOffset;
+        const y2 = ay * cosX - z1 * sinX;
+        const z2 = ay * sinX + z1 * cosX;
+        const depth = camDist - z2;
+        if (depth <= 0.5) continue;
+
+        const sx = (halfCols + (x1 * fovX) / depth) | 0;
+        const sy = (halfRows - (y2 * fovY) / depth) | 0;
+        if (sx >= 0 && sx < COLS && sy >= 0 && sy < ROWS) {
+          const idx = sy * COLS + sx;
+          if (z2 > zBuf[idx]) {
+            zBuf[idx] = z2;
+            specialBuf[idx] = p.glyph;
+            colorBuf[idx] = p.col;
+          }
+        }
+      }
+
+      // 8. Two-Pass High-DPI ASCII Canvas Rendering
+      //    Pass 1: Crisp, unblurred shadow & midtone runs (zero muddy shadow bleed)
+      //    Pass 2: Batched luminous highlights, petal rims, baby's breath & sparkles
+      bCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      bCtx.clearRect(0, 0, canvasCssW, canvasCssH);
+
+      bCtx.font = `600 ${fontSize}px "Fira Code", "Courier New", monospace`;
+      bCtx.textBaseline = 'middle';
+      bCtx.textAlign = 'left';
+      bCtx.shadowBlur = 0;
+      bCtx.shadowColor = 'transparent';
+
+      for (let c = 0; c < glowBuckets.length; c++) glowBuckets[c].length = 0;
+
+      const padX = 3;
+      const padY = 3 + cellH * 0.5;
+
       for (let r = 0; r < ROWS; r++) {
-        let curCol = -1;
-        let run = '';
         const rowOffset = r * COLS;
+        const py = padY + r * cellH;
+        let runStart = -1;
+        let runColor = 0;
+        let runStr = '';
 
         for (let c = 0; c < COLS; c++) {
           const idx = rowOffset + c;
           const col = colorBuf[idx];
-          const ch = customGlyphs.has(idx)
-            ? customGlyphs.get(idx)
-            : String.fromCharCode(charBuf[idx]);
-
-          if (col !== curCol) {
-            if (run.length > 0) {
-              html += curCol === 0
-                ? run
-                : `<span class="${PALETTE[curCol]}">${run}</span>`;
+          if (col === 0) {
+            if (runStart !== -1) {
+              bCtx.fillStyle = PALETTE[runColor].fill;
+              bCtx.fillText(runStr, padX + runStart * cellW, py);
+              runStart = -1;
+              runStr = '';
             }
-            curCol = col;
-            run = ch;
+            continue;
+          }
+
+          const sp = specialBuf[idx];
+          const pal = PALETTE[col];
+
+          // Defer glowing or special Unicode cells to Pass 2
+          if (pal.blur > 0 || sp > 0) {
+            if (runStart !== -1) {
+              bCtx.fillStyle = PALETTE[runColor].fill;
+              bCtx.fillText(runStr, padX + runStart * cellW, py);
+              runStart = -1;
+              runStr = '';
+            }
+            glowBuckets[col].push(c, r, sp > 0 ? -sp : charBuf[idx]);
+            continue;
+          }
+
+          // Batch contiguous same-color crisp ASCII characters into a single fillText call
+          const ch = String.fromCharCode(charBuf[idx]);
+          if (col === runColor && runStart !== -1) {
+            runStr += ch;
           } else {
-            run += ch;
+            if (runStart !== -1) {
+              bCtx.fillStyle = PALETTE[runColor].fill;
+              bCtx.fillText(runStr, padX + runStart * cellW, py);
+            }
+            runStart = c;
+            runColor = col;
+            runStr = ch;
           }
         }
-        if (run.length > 0) {
-          html += curCol === 0
-            ? run
-            : `<span class="${PALETTE[curCol]}">${run}</span>`;
+
+        if (runStart !== -1) {
+          bCtx.fillStyle = PALETTE[runColor].fill;
+          bCtx.fillText(runStr, padX + runStart * cellW, py);
         }
-        html += '\n';
       }
 
-      bouquetEl.innerHTML = html;
+      // Pass 2: Draw glowing highlights, petal rims, baby's breath & orbiting sparkles grouped by style
+      bCtx.textAlign = 'center';
+      for (let col = 1; col < glowBuckets.length; col++) {
+        const list = glowBuckets[col];
+        if (list.length === 0) continue;
+        const pal = PALETTE[col];
+        bCtx.fillStyle = pal.fill;
+        if (pal.blur > 0) {
+          bCtx.shadowColor = pal.glow;
+          bCtx.shadowBlur = pal.blur;
+        } else {
+          bCtx.shadowColor = 'transparent';
+          bCtx.shadowBlur = 0;
+        }
+
+        for (let k = 0; k < list.length; k += 3) {
+          const c = list[k];
+          const r = list[k + 1];
+          const code = list[k + 2];
+          const ch = code < 0 ? UNICODE_TABLE[-code] : String.fromCharCode(code);
+          bCtx.fillText(ch, padX + (c + 0.5) * cellW, padY + r * cellH);
+        }
+      }
+
+      bCtx.shadowBlur = 0;
       requestAnimationFrame(renderFrame);
     }
 
-    requestAnimationFrame(renderFrame);
-
     // ── Typewriter for Title ──
     const titleEl = document.getElementById('title-line');
-    const titleMsg = '✿ a little something i made for the whole night for you, wispy ✿';
+    const titleMsg = '✿ a little something i made for the whole night for you, Hany ✿';
     let tIdx = 0;
 
     setTimeout(function typeTitle() {
@@ -1047,7 +1599,7 @@
 
     // ── Typewriter for Speech Bubble ──
     const speechEl = document.getElementById('speech-text');
-    const speechMsg = 'I really hope you like it, atleast i wanna leave something behind for you ♥';
+    const speechMsg = 'I really love you Hany ♥';
     let sIdx = 0;
 
     setTimeout(function typeSpeech() {
@@ -1057,7 +1609,7 @@
       }
     }, 2800);
 
-    // ── Falling Petals ──
+    // ── Ambient Gently Falling ASCII Petals ──
     const petalPool = ['❀', '✿', '❁', '❃', '※', '♥', '✾', '❂'];
 
     function dropPetal() {
@@ -1076,8 +1628,9 @@
 
     setInterval(dropPetal, 750);
 
-    // ── Floating Hearts on Click ──
+    // ── Floating Hearts Burst on Click Anywhere ──
     document.addEventListener('click', e => {
+      if (suppressNextDocClick) return;
       for (let i = 0; i < 7; i++) {
         const h = document.createElement('div');
         h.className = 'float-heart';
@@ -1092,6 +1645,13 @@
         setTimeout(() => h.remove(), 3600);
       }
     });
+
+    // ── Start Animations on Window Load ──
+    window.onload = function () {
+      measureAndResizeBouquet();
+      requestAnimationFrame(drawStars);
+      requestAnimationFrame(renderFrame);
+    };
   </script>
 </body>
 
